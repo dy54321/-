@@ -1,0 +1,2041 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大队委扣分管理系统 - 美化版</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #4cc9f0;
+            --secondary-color: #7209b7;
+            --success-color: #4CAF50;
+            --warning-color: #ff9e00;
+            --danger-color: #f72585;
+            --info-color: #4895ef;
+            --dark-color: #2b2d42;
+            --light-color: #f8f9fa;
+            --gray-color: #6c757d;
+            --card-bg: #ffffff;
+            --sidebar-bg: linear-gradient(135deg, #2b2d42 0%, #4361ee 100%);
+            --header-bg: linear-gradient(135deg, #4361ee 0%, #4cc9f0 100%);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.12);
+            --border-radius: 16px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        
+        * {
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            color: var(--dark-color);
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        
+        /* 顶部标题栏 */
+        .header {
+            background: var(--header-bg);
+            color: white;
+            padding: 1.2rem 0;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 20px rgba(67, 97, 238, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+        
+        /* 导航标签 */
+        .nav-tabs {
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .nav-tabs .nav-link {
+            color: var(--gray-color);
+            font-weight: 500;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px 10px 0 0;
+            margin-right: 5px;
+            transition: var(--transition);
+            position: relative;
+            background: transparent;
+        }
+        
+        .nav-tabs .nav-link:hover {
+            color: var(--primary-color);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            background-color: white;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+        }
+        
+        .nav-tabs .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-color);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        /* 卡片设计 */
+        .card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            background-color: var(--card-bg);
+            margin-bottom: 1.8rem;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-3px);
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1.5rem 1.5rem 1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-header i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        /* 表单样式 */
+        .form-label {
+            font-weight: 500;
+            color: var(--dark-color);
+            margin-bottom: 8px;
+        }
+        
+        .form-control, .form-select {
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background-color: #f8fafc;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            background-color: white;
+        }
+        
+        /* 按钮样式 */
+        .btn-record {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(67, 97, 238, 0.25);
+        }
+        
+        .btn-record:hover {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(67, 97, 238, 0.35);
+        }
+        
+        .btn-outline-primary {
+            border: 1.5px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 8px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+        }
+        
+        .btn-outline-danger {
+            border: 1.5px solid var(--danger-color);
+            color: var(--danger-color);
+            border-radius: 8px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .btn-outline-danger:hover {
+            background-color: var(--danger-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(247, 37, 133, 0.2);
+        }
+        
+        /* 表格样式 */
+        .table {
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+        }
+        
+        .table th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+            color: var(--dark-color);
+            border: none;
+            padding: 15px 12px;
+        }
+        
+        .table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgba(67, 97, 238, 0.03);
+        }
+        
+        /* 统计数据 */
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border-left: 5px solid var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+            font-weight: 500;
+        }
+        
+        /* 班级徽章 */
+        .class-badge {
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            margin: 3px;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: inline-block;
+        }
+        
+        .class-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 排名样式 */
+        .ranking-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: #f8fafc;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+        
+        .ranking-item:hover {
+            background-color: #f1f5f9;
+            transform: translateX(5px);
+        }
+        
+        .ranking-rank {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .ranking-rank-1 {
+            background-color: #ffd700;
+        }
+        
+        .ranking-rank-2 {
+            background-color: #c0c0c0;
+        }
+        
+        .ranking-rank-3 {
+            background-color: #cd7f32;
+        }
+        
+        /* 扣分记录项 */
+        .record-item {
+            background-color: #f8fafc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+        }
+        
+        .record-item:hover {
+            background-color: #f1f5f9;
+            transform: translateX(5px);
+        }
+        
+        /* 今日统计 */
+        .today-stats-container {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            color: white;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .today-stats-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+        }
+        
+        .today-stats-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            transform: translate(-30%, 30%);
+        }
+        
+        /* 模态框 */
+        .modal-content {
+            border-radius: var(--border-radius);
+            border: none;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .modal-header {
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            padding: 1.2rem 1.5rem;
+        }
+        
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--gray-color);
+        }
+        
+        .empty-state i {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+        }
+        
+        .empty-state p {
+            font-size: 1.1rem;
+            margin-bottom: 0;
+        }
+        
+        /* 值班表 */
+        .duty-table th {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .duty-table td {
+            text-align: center;
+            vertical-align: middle;
+            padding: 12px;
+        }
+        
+        .duty-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .card-body {
+                padding: 1.2rem;
+            }
+            
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            
+            .nav-tabs .nav-link {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* 标签切换效果 */
+        .tab-pane {
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部标题栏 -->
+    <div class="header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-1"><i class="bi bi-clipboard-check me-2"></i>大队委扣分管理系统</h1>
+                    <p class="mb-0 opacity-90">记录每日检查扣分，生成日/周汇总报告</p>
+                </div>
+                <div class="text-end">
+                    <div id="currentDate" class="fw-bold fs-5"></div>
+                    <div id="currentWeek" class="small opacity-90"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 主内容区 -->
+    <div class="container">
+        <!-- 今日统计 -->
+        <div class="today-stats-container">
+            <div class="row text-center">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="stat-number" id="todayCount">0</div>
+                    <div class="stat-label opacity-90">今日扣分记录</div>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="stat-number" id="todayClassCount">0</div>
+                    <div class="stat-label opacity-90">涉及班级数</div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-number" id="todayTotalScore">0</div>
+                    <div class="stat-label opacity-90">扣分总分</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 导航标签 -->
+        <ul class="nav nav-tabs mb-4" id="mainTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="record-tab" data-bs-toggle="tab" data-bs-target="#record" type="button" role="tab">
+                    <i class="bi bi-pencil-square me-2"></i>扣分记录
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="daily-tab" data-bs-toggle="tab" data-bs-target="#daily" type="button" role="tab">
+                    <i class="bi bi-calendar-day me-2"></i>日汇总
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="weekly-tab" data-bs-toggle="tab" data-bs-target="#weekly" type="button" role="tab">
+                    <i class="bi bi-calendar-week me-2"></i>周汇总
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="duty-tab" data-bs-toggle="tab" data-bs-target="#duty" type="button" role="tab">
+                    <i class="bi bi-table me-2"></i>值班表
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="classes-tab" data-bs-toggle="tab" data-bs-target="#classes" type="button" role="tab">
+                    <i class="bi bi-people me-2"></i>班级信息
+                </button>
+            </li>
+        </ul>
+        
+        <!-- 标签内容 -->
+        <div class="tab-content" id="mainTabContent">
+            <!-- 扣分记录标签页 -->
+            <div class="tab-pane fade show active" id="record" role="tabpanel">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="card fade-in">
+                            <div class="card-header">
+                                <i class="bi bi-plus-circle"></i>新增扣分记录
+                            </div>
+                            <div class="card-body">
+                                <form id="deductionForm">
+                                    <div class="mb-3">
+                                        <label for="recordDate" class="form-label">日期</label>
+                                        <input type="date" class="form-control" id="recordDate" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="weekday" class="form-label">星期</label>
+                                        <select class="form-select" id="weekday" required>
+                                            <option value="">请选择星期</option>
+                                            <option value="周一">周一</option>
+                                            <option value="周二">周二</option>
+                                            <option value="周三">周三</option>
+                                            <option value="周四">周四</option>
+                                            <option value="周五">周五</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="checkItem" class="form-label">检查项目</label>
+                                        <select class="form-select" id="checkItem" required>
+                                            <option value="">请选择检查项目</option>
+                                            <option value="早读课间">早读/课间</option>
+                                            <option value="环境卫生">环境卫生</option>
+                                            <option value="眼保健操大课间常规节约水电">眼保健操/大课间常规/节约水电</option>
+                                            <option value="中午就餐文明礼仪">中午就餐/文明礼仪</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="deductedClass" class="form-label">被扣分班级</label>
+                                        <select class="form-select" id="deductedClass" required>
+                                            <option value="">请选择班级</option>
+                                            <!-- 班级选项将通过JavaScript动态生成 -->
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="deductionScore" class="form-label">扣分分值</label>
+                                        <select class="form-select" id="deductionScore" required>
+                                            <option value="0.5">0.5分</option>
+                                            <option value="1" selected>1分</option>
+                                            <option value="2">2分</option>
+                                            <option value="3">3分</option>
+                                            <option value="5">5分</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="checker" class="form-label">检查人</label>
+                                        <select class="form-select" id="checker" required>
+                                            <option value="">请选择检查人</option>
+                                            <!-- 检查人选项将通过JavaScript动态生成 -->
+                                        </select>
+                                    </div>
+                                    
+                                    <button type="submit" class="btn btn-record w-100 mt-2">
+                                        <i class="bi bi-save me-2"></i>保存扣分记录
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        <div class="card fade-in">
+                            <div class="card-header">
+                                <i class="bi bi-graph-up"></i>今日扣分排名
+                            </div>
+                            <div class="card-body">
+                                <div id="todayRankingList">
+                                    <!-- 今日排名将通过JavaScript动态生成 -->
+                                </div>
+                                <div id="emptyRanking" class="empty-state">
+                                    <i class="bi bi-trophy"></i>
+                                    <p>今日暂无扣分记录</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-8">
+                        <div class="card fade-in">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="bi bi-list-check"></i>扣分记录列表
+                                </div>
+                                <div>
+                                    <select class="form-select form-select-sm w-auto d-inline-block" id="filterDate">
+                                        <option value="all">全部日期</option>
+                                        <option value="today">今日</option>
+                                        <option value="week">本周</option>
+                                    </select>
+                                    <button class="btn btn-sm btn-outline-primary ms-2" id="clearAllBtn">
+                                        <i class="bi bi-trash"></i> 清空
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th width="100">日期</th>
+                                                <th width="80">星期</th>
+                                                <th width="120">检查项目</th>
+                                                <th width="100">被扣班级</th>
+                                                <th width="80">分值</th>
+                                                <th width="100">检查人</th>
+                                                <th width="80">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="deductionList">
+                                            <!-- 扣分记录将通过JavaScript动态生成 -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="emptyRecords" class="empty-state">
+                                    <i class="bi bi-clipboard-x"></i>
+                                    <p>暂无扣分记录，请添加第一条记录</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 日汇总标签页 -->
+            <div class="tab-pane fade" id="daily" role="tabpanel">
+                <div class="card fade-in">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-calendar-day"></i>每日扣分汇总
+                        </div>
+                        <div>
+                            <input type="date" class="form-control form-control-sm w-auto d-inline-block" id="dailyDateFilter">
+                            <button class="btn btn-sm btn-primary export-btn ms-2" id="exportDailyBtn">
+                                <i class="bi bi-download me-1"></i>导出
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="dailySummaryContent">
+                            <!-- 日汇总内容将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 周汇总标签页 -->
+            <div class="tab-pane fade" id="weekly" role="tabpanel">
+                <div class="card fade-in">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-calendar-week"></i>每周扣分汇总
+                        </div>
+                        <div>
+                            <select class="form-select form-select-sm w-auto d-inline-block" id="weekFilter">
+                                <!-- 周选项将通过JavaScript动态生成 -->
+                            </select>
+                            <button class="btn btn-sm btn-primary export-btn ms-2" id="exportWeeklyBtn">
+                                <i class="bi bi-download me-1"></i>导出
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="weeklySummaryContent">
+                            <!-- 周汇总内容将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 值班表标签页 -->
+            <div class="tab-pane fade" id="duty" role="tabpanel">
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <i class="bi bi-table"></i>大队委值班表
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered text-center duty-table">
+                                <thead>
+                                    <tr>
+                                        <th>检查项目</th>
+                                        <th>检查年级</th>
+                                        <th>周一</th>
+                                        <th>周二</th>
+                                        <th>周三</th>
+                                        <th>周四</th>
+                                        <th>周五</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dutyTable">
+                                    <!-- 值班表内容将通过JavaScript动态生成 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="alert alert-info mt-3">
+                            <i class="bi bi-info-circle me-2"></i>
+                            注意：添加扣分记录时，选择星期和检查项目后，系统会自动从值班表中获取对应的检查人
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 班级信息标签页 -->
+            <div class="tab-pane fade" id="classes" role="tabpanel">
+                <div class="card fade-in">
+                    <div class="card-header">
+                        <i class="bi bi-people"></i>班级信息（共27个班）
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <div class="stat-card">
+                                    <h5 class="text-primary mb-3">一年级（4个班）</h5>
+                                    <div>
+                                        <span class="badge bg-primary class-badge">一（1）班</span>
+                                        <span class="badge bg-primary class-badge">一（2）班</span>
+                                        <span class="badge bg-primary class-badge">一（3）班</span>
+                                        <span class="badge bg-primary class-badge">一（4）班</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="stat-card">
+                                    <h5 class="text-success mb-3">二年级（5个班）</h5>
+                                    <div>
+                                        <span class="badge bg-success class-badge">二（1）班</span>
+                                        <span class="badge bg-success class-badge">二（2）班</span>
+                                        <span class="badge bg-success class-badge">二（3）班</span>
+                                        <span class="badge bg-success class-badge">二（4）班</span>
+                                        <span class="badge bg-success class-badge">二（5）班</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="stat-card">
+                                    <h5 class="text-warning mb-3">三年级（5个班）</h5>
+                                    <div>
+                                        <span class="badge bg-warning class-badge">三（1）班</span>
+                                        <span class="badge bg-warning class-badge">三（2）班</span>
+                                        <span class="badge bg-warning class-badge">三（3）班</span>
+                                        <span class="badge bg-warning class-badge">三（4）班</span>
+                                        <span class="badge bg-warning class-badge">三（5）班</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="stat-card">
+                                    <h5 class="text-info mb-3">四年级（5个班）</h5>
+                                    <div>
+                                        <span class="badge bg-info class-badge">四（1）班</span>
+                                        <span class="badge bg-info class-badge">四（2）班</span>
+                                        <span class="badge bg-info class-badge">四（3）班</span>
+                                        <span class="badge bg-info class-badge">四（4）班</span>
+                                        <span class="badge bg-info class-badge">四（5）班</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="stat-card">
+                                    <h5 class="text-danger mb-3">五年级（4个班）</h5>
+                                    <div>
+                                        <span class="badge bg-danger class-badge">五（1）班</span>
+                                        <span class="badge bg-danger class-badge">五（2）班</span>
+                                        <span class="badge bg-danger class-badge">五（3）班</span>
+                                        <span class="badge bg-danger class-badge">五（4）班</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="stat-card">
+                                    <h5 class="text-secondary mb-3">六年级（4个班）</h5>
+                                    <div>
+                                        <span class="badge bg-secondary class-badge">六（1）班</span>
+                                        <span class="badge bg-secondary class-badge">六（2）班</span>
+                                        <span class="badge bg-secondary class-badge">六（3）班</span>
+                                        <span class="badge bg-secondary class-badge">六（4）班</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框（用于编辑记录） -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">编辑扣分记录</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <input type="hidden" id="editId">
+                        <div class="mb-3">
+                            <label for="editScore" class="form-label">扣分分值</label>
+                            <select class="form-select" id="editScore" required>
+                                <option value="0.5">0.5分</option>
+                                <option value="1">1分</option>
+                                <option value="2">2分</option>
+                                <option value="3">3分</option>
+                                <option value="5">5分</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="saveEditBtn">保存修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="mt-5 py-4 text-center text-muted border-top">
+        <div class="container">
+            <p class="mb-1">大队委扣分管理系统 &copy; 2023</p>
+            <p class="small">数据保存在浏览器本地存储中，请勿清空浏览器数据</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/locale/zh-cn.js"></script>
+    <script>
+        // 设置dayjs为中文
+        dayjs.locale('zh-cn');
+        
+        // 初始化数据
+        let deductionRecords = JSON.parse(localStorage.getItem('deductionRecords')) || [];
+        
+        // 班级数据（27个班）
+        const classes = {
+            "一年级": ["一（1）班", "一（2）班", "一（3）班", "一（4）班"],
+            "二年级": ["二（1）班", "二（2）班", "二（3）班", "二（4）班", "二（5）班"],
+            "三年级": ["三（1）班", "三（2）班", "三（3）班", "三（4）班", "三（5）班"],
+            "四年级": ["四（1）班", "四（2）班", "四（3）班", "四（4）班", "四（5）班"],
+            "五年级": ["五（1）班", "五（2）班", "五（3）班", "五（4）班"],
+            "六年级": ["六（1）班", "六（2）班", "六（3）班", "六（4）班"]
+        };
+        
+        // 值班表数据（从Excel中提取）
+        const dutySchedule = {
+            "周一": {
+                "早读课间": {
+                    "一二三年级": "四（1）班苗语涵",
+                    "四五六年级": "四（5）班宋美雅"
+                },
+                "环境卫生": {
+                    "一二三年级": "五（3）班顾书宇",
+                    "四五六年级": "四（5）班蔡之睿"
+                },
+                "眼保健操大课间常规节约水电": {
+                    "一二三年级": "四（5）班杨煜宸",
+                    "四五六年级": "二（3）班王梓奕"
+                },
+                "中午就餐文明礼仪": {
+                    "一二三年级": "二（5）班袁伊菡",
+                    "四五六年级": "五（4）班万佳怡"
+                }
+            },
+            "周二": {
+                "早读课间": {
+                    "一二三年级": "四（1）班洪梓瑞",
+                    "四五六年级": "五（2）班游信迪"
+                },
+                "环境卫生": {
+                    "一二三年级": "二（5）班杨清心",
+                    "四五六年级": "二（1）班万宇璠"
+                },
+                "眼保健操大课间常规节约水电": {
+                    "一二三年级": "五（1）班熊可馨",
+                    "四五六年级": "二（2）班田智萌"
+                },
+                "中午就餐文明礼仪": {
+                    "一二三年级": "五（2）班王艺涵",
+                    "四五六年级": "五（3）班张悦诚"
+                }
+            },
+            "周三": {
+                "早读课间": {
+                    "一二三年级": "四（3）班袁瑾",
+                    "四五六年级": "五（3）班袁舒萌"
+                },
+                "环境卫生": {
+                    "一二三年级": "四（2）班萧禺",
+                    "四五六年级": "四（5）班张诗韵"
+                },
+                "眼保健操大课间常规节约水电": {
+                    "一二三年级": "二（5）班黄舒梵",
+                    "四五六年级": "三（3）班黄劲筠"
+                },
+                "中午就餐文明礼仪": {
+                    "一二三年级": "五（1）班徐佳琦",
+                    "四五六年级": "二（1）班高家昱"
+                }
+            },
+            "周四": {
+                "早读课间": {
+                    "一二三年级": "四（4）班杨昱沨",
+                    "四五六年级": "五（1）班周子琪"
+                },
+                "环境卫生": {
+                    "一二三年级": "四（4）班陈鹏寓",
+                    "四五六年级": "四（5）班周梓扬"
+                },
+                "眼保健操大课间常规节约水电": {
+                    "一二三年级": "五（2）班缪诗语",
+                    "四五六年级": "二（4）班黄蕴涵"
+                },
+                "中午就餐文明礼仪": {
+                    "一二三年级": "五（3）班孙浩媛",
+                    "四五六年级": "五（3）班沙艾霖"
+                }
+            },
+            "周五": {
+                "早读课间": {
+                    "一二三年级": "五（2）班张歆瑶",
+                    "四五六年级": "二（1）班钱司冉"
+                },
+                "环境卫生": {
+                    "一二三年级": "四（2）班陈博予",
+                    "四五六年级": "四（2）班黄宣霖"
+                },
+                "眼保健操大课间常规节约水电": {
+                    "一二三年级": "五（2）班袁梓裕",
+                    "四五六年级": "三（5）班章琛岩"
+                },
+                "中午就餐文明礼仪": {
+                    "一二三年级": "五（3）班钱俊祥",
+                    "四五六年级": "五（4）班肖鋆蕊"
+                }
+            }
+        };
+        
+        // 从值班表中提取所有检查人
+        function getAllCheckers() {
+            const checkersSet = new Set();
+            
+            // 遍历值班表，收集所有检查人
+            Object.values(dutySchedule).forEach(daySchedule => {
+                Object.values(daySchedule).forEach(itemSchedule => {
+                    Object.values(itemSchedule).forEach(checker => {
+                        checkersSet.add(checker);
+                    });
+                });
+            });
+            
+            // 按班级和姓名排序
+            return Array.from(checkersSet).sort((a, b) => {
+                // 提取班级和姓名进行比较
+                const classA = a.match(/^(.+?)班/)[0];
+                const classB = b.match(/^(.+?)班/)[0];
+                if (classA !== classB) {
+                    return classA.localeCompare(classB, 'zh-CN');
+                }
+                return a.localeCompare(b, 'zh-CN');
+            });
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化日期和时间
+            initDate();
+            
+            // 初始化班级下拉框
+            initClassSelect();
+            
+            // 初始化检查人下拉框
+            initCheckerSelect();
+            
+            // 初始化值班表
+            initDutyTable();
+            
+            // 初始化扣分记录列表
+            renderDeductionList();
+            
+            // 初始化今日统计和排名
+            updateTodayStats();
+            updateTodayRanking();
+            
+            // 初始化周筛选器
+            initWeekFilter();
+            
+            // 绑定事件监听器
+            bindEvents();
+            
+            // 检查人员自动选择
+            setupCheckerAutoSelect();
+            
+            // 初始化日汇总和周汇总
+            renderDailySummary();
+            renderWeeklySummary();
+        });
+        
+        // 初始化日期和时间显示
+        function initDate() {
+            const now = dayjs();
+            const currentDate = now.format('YYYY-MM-DD');
+            const currentWeekday = now.format('dddd').replace('星期', '周');
+            
+            // 显示当前日期
+            document.getElementById('currentDate').textContent = now.format('YYYY年MM月DD日');
+            document.getElementById('currentWeek').textContent = currentWeekday;
+            
+            // 设置表单日期为今天
+            document.getElementById('recordDate').value = currentDate;
+            document.getElementById('weekday').value = currentWeekday === '星期日' || currentWeekday === '星期六' ? '周一' : currentWeekday;
+            
+            // 设置日汇总日期筛选器为今天
+            document.getElementById('dailyDateFilter').value = currentDate;
+        }
+        
+        // 初始化班级下拉框
+        function initClassSelect() {
+            const classSelect = document.getElementById('deductedClass');
+            classSelect.innerHTML = '<option value="">请选择班级</option>';
+            
+            // 添加所有班级选项
+            for (const grade in classes) {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = grade;
+                
+                classes[grade].forEach(className => {
+                    const option = document.createElement('option');
+                    option.value = className;
+                    option.textContent = className;
+                    optgroup.appendChild(option);
+                });
+                
+                classSelect.appendChild(optgroup);
+            }
+        }
+        
+        // 初始化检查人下拉框
+        function initCheckerSelect() {
+            const checkerSelect = document.getElementById('checker');
+            checkerSelect.innerHTML = '<option value="">请选择检查人</option>';
+            
+            // 获取所有检查人
+            const allCheckers = getAllCheckers();
+            
+            // 按班级分组
+            const checkersByClass = {};
+            allCheckers.forEach(checker => {
+                // 提取班级
+                const classMatch = checker.match(/^(.+?)班/);
+                if (classMatch) {
+                    const className = classMatch[0];
+                    if (!checkersByClass[className]) {
+                        checkersByClass[className] = [];
+                    }
+                    checkersByClass[className].push(checker);
+                }
+            });
+            
+            // 添加分组选项
+            Object.keys(checkersByClass).sort().forEach(className => {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = className;
+                
+                checkersByClass[className].forEach(checker => {
+                    const option = document.createElement('option');
+                    option.value = checker;
+                    option.textContent = checker;
+                    optgroup.appendChild(option);
+                });
+                
+                checkerSelect.appendChild(optgroup);
+            });
+        }
+        
+        // 初始化值班表
+        function initDutyTable() {
+            const dutyTable = document.getElementById('dutyTable');
+            dutyTable.innerHTML = '';
+            
+            // 检查项目列表
+            const checkItems = [
+                { key: "早读课间", label: "早读/课间" },
+                { key: "环境卫生", label: "环境卫生" },
+                { key: "眼保健操大课间常规节约水电", label: "眼保健操/大课间常规/节约水电" },
+                { key: "中午就餐文明礼仪", label: "中午就餐/文明礼仪" }
+            ];
+            
+            // 年级组列表
+            const gradeGroups = ["一二三年级", "四五六年级"];
+            
+            // 生成表格行
+            checkItems.forEach((item, index) => {
+                gradeGroups.forEach((gradeGroup, gradeIndex) => {
+                    const row = document.createElement('tr');
+                    
+                    // 第一行显示检查项目名称（合并行）
+                    if (gradeIndex === 0) {
+                        const itemCell = document.createElement('td');
+                        itemCell.textContent = item.label;
+                        itemCell.rowSpan = 2;
+                        itemCell.className = 'align-middle fw-bold';
+                        row.appendChild(itemCell);
+                    }
+                    
+                    // 检查年级
+                    const gradeCell = document.createElement('td');
+                    gradeCell.textContent = gradeGroup;
+                    gradeCell.className = 'fw-bold';
+                    row.appendChild(gradeCell);
+                    
+                    // 每天的检查人
+                    ["周一", "周二", "周三", "周四", "周五"].forEach(weekday => {
+                        const cell = document.createElement('td');
+                        const checker = dutySchedule[weekday][item.key][gradeGroup];
+                        cell.innerHTML = `<div class="checker-name">${checker}</div>`;
+                        row.appendChild(cell);
+                    });
+                    
+                    dutyTable.appendChild(row);
+                });
+            });
+        }
+        
+        // 设置检查人员自动选择
+        function setupCheckerAutoSelect() {
+            const weekdaySelect = document.getElementById('weekday');
+            const checkItemSelect = document.getElementById('checkItem');
+            const checkerSelect = document.getElementById('checker');
+            
+            function updateChecker() {
+                const weekday = weekdaySelect.value;
+                const checkItem = checkItemSelect.value;
+                
+                if (weekday && checkItem) {
+                    // 获取该星期和检查项目的两个检查人
+                    const checkers = [
+                        dutySchedule[weekday][checkItem]["一二三年级"],
+                        dutySchedule[weekday][checkItem]["四五六年级"]
+                    ];
+                    
+                    // 设置下拉框选项为这两个检查人
+                    checkerSelect.innerHTML = '<option value="">请选择检查人</option>';
+                    checkers.forEach(checker => {
+                        const option = document.createElement('option');
+                        option.value = checker;
+                        option.textContent = checker;
+                        checkerSelect.appendChild(option);
+                    });
+                    
+                    // 默认选择第一个检查人
+                    if (checkers.length > 0) {
+                        checkerSelect.value = checkers[0];
+                    }
+                } else {
+                    // 重新初始化检查人下拉框
+                    initCheckerSelect();
+                }
+            }
+            
+            weekdaySelect.addEventListener('change', updateChecker);
+            checkItemSelect.addEventListener('change', updateChecker);
+        }
+        
+        // 绑定事件监听器
+        function bindEvents() {
+            // 扣分表单提交
+            document.getElementById('deductionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addDeductionRecord();
+            });
+            
+            // 日期筛选器
+            document.getElementById('filterDate').addEventListener('change', function() {
+                renderDeductionList();
+            });
+            
+            // 清空所有记录
+            document.getElementById('clearAllBtn').addEventListener('click', function() {
+                if (confirm('确定要清空所有扣分记录吗？此操作不可恢复。')) {
+                    deductionRecords = [];
+                    localStorage.setItem('deductionRecords', JSON.stringify(deductionRecords));
+                    renderDeductionList();
+                    updateTodayStats();
+                    updateTodayRanking();
+                    renderDailySummary();
+                    renderWeeklySummary();
+                    alert('所有数据已清空！');
+                }
+            });
+            
+            // 日汇总日期筛选
+            document.getElementById('dailyDateFilter').addEventListener('change', function() {
+                renderDailySummary();
+            });
+            
+            // 周筛选器
+            document.getElementById('weekFilter').addEventListener('change', function() {
+                renderWeeklySummary();
+            });
+            
+            // 导出日汇总
+            document.getElementById('exportDailyBtn').addEventListener('click', function() {
+                exportDailySummary();
+            });
+            
+            // 导出周汇总
+            document.getElementById('exportWeeklyBtn').addEventListener('click', function() {
+                exportWeeklySummary();
+            });
+            
+            // 保存编辑
+            document.getElementById('saveEditBtn').addEventListener('click', saveEdit);
+        }
+        
+        // 添加扣分记录
+        function addDeductionRecord() {
+            const recordDate = document.getElementById('recordDate').value;
+            const weekday = document.getElementById('weekday').value;
+            const checkItem = document.getElementById('checkItem').value;
+            const deductedClass = document.getElementById('deductedClass').value;
+            const deductionScore = parseFloat(document.getElementById('deductionScore').value);
+            const checker = document.getElementById('checker').value;
+            
+            // 生成唯一ID
+            const id = Date.now() + Math.random().toString(36).substr(2, 9);
+            
+            // 创建记录对象
+            const record = {
+                id,
+                date: recordDate,
+                weekday,
+                checkItem,
+                deductedClass,
+                deductionScore,
+                checker,
+                createdAt: new Date().toISOString()
+            };
+            
+            // 添加到记录数组
+            deductionRecords.push(record);
+            
+            // 保存到本地存储
+            localStorage.setItem('deductionRecords', JSON.stringify(deductionRecords));
+            
+            // 重新渲染列表
+            renderDeductionList();
+            
+            // 更新今日统计和排名
+            updateTodayStats();
+            updateTodayRanking();
+            
+            // 更新汇总
+            renderDailySummary();
+            renderWeeklySummary();
+            
+            // 重置表单
+            document.getElementById('deductionForm').reset();
+            
+            // 恢复日期和星期
+            document.getElementById('recordDate').value = recordDate;
+            document.getElementById('weekday').value = weekday;
+            
+            // 重新初始化检查人下拉框
+            initCheckerSelect();
+            
+            // 显示成功消息
+            alert('扣分记录已保存！');
+        }
+        
+        // 渲染扣分记录列表
+        function renderDeductionList() {
+            const deductionList = document.getElementById('deductionList');
+            const emptyRecords = document.getElementById('emptyRecords');
+            const filterValue = document.getElementById('filterDate').value;
+            
+            // 筛选记录
+            let filteredRecords = [...deductionRecords];
+            
+            if (filterValue === 'today') {
+                const today = dayjs().format('YYYY-MM-DD');
+                filteredRecords = filteredRecords.filter(record => record.date === today);
+            } else if (filterValue === 'week') {
+                const startOfWeek = dayjs().startOf('week').add(1, 'day').format('YYYY-MM-DD'); // 周一开始
+                const endOfWeek = dayjs().endOf('week').add(1, 'day').format('YYYY-MM-DD'); // 周日结束
+                filteredRecords = filteredRecords.filter(record => 
+                    record.date >= startOfWeek && record.date <= endOfWeek
+                );
+            }
+            
+            // 按日期倒序排序
+            filteredRecords.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            // 清空列表
+            deductionList.innerHTML = '';
+            
+            // 如果没有记录，显示空状态
+            if (filteredRecords.length === 0) {
+                emptyRecords.style.display = 'block';
+                deductionList.innerHTML = '';
+                return;
+            }
+            
+            // 隐藏空状态
+            emptyRecords.style.display = 'none';
+            
+            // 生成记录行
+            filteredRecords.forEach(record => {
+                const row = document.createElement('tr');
+                
+                // 根据扣分分值设置颜色
+                let scoreClass = '';
+                if (record.deductionScore >= 3) {
+                    scoreClass = 'text-danger fw-bold';
+                } else if (record.deductionScore >= 2) {
+                    scoreClass = 'text-warning fw-bold';
+                }
+                
+                row.innerHTML = `
+                    <td>${record.date}</td>
+                    <td><span class="badge bg-primary">${record.weekday}</span></td>
+                    <td>${record.checkItem}</td>
+                    <td><span class="badge bg-secondary">${record.deductedClass}</span></td>
+                    <td class="${scoreClass}">${record.deductionScore}分</td>
+                    <td>${record.checker}</td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary me-1 edit-btn" data-id="${record.id}">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${record.id}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                `;
+                
+                deductionList.appendChild(row);
+            });
+            
+            // 绑定编辑和删除按钮事件
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    editRecord(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    deleteRecord(id);
+                });
+            });
+        }
+        
+        // 编辑记录
+        function editRecord(id) {
+            const record = deductionRecords.find(r => r.id === id);
+            if (!record) return;
+            
+            // 填充编辑表单
+            document.getElementById('editId').value = record.id;
+            document.getElementById('editScore').value = record.deductionScore.toString();
+            
+            // 显示模态框
+            const editModal = new bootstrap.Modal(document.getElementById('editModal'));
+            editModal.show();
+        }
+        
+        // 保存编辑
+        function saveEdit() {
+            const id = document.getElementById('editId').value;
+            const newScore = parseFloat(document.getElementById('editScore').value);
+            
+            // 找到记录并更新
+            const recordIndex = deductionRecords.findIndex(r => r.id === id);
+            if (recordIndex !== -1) {
+                deductionRecords[recordIndex].deductionScore = newScore;
+                
+                // 保存到本地存储
+                localStorage.setItem('deductionRecords', JSON.stringify(deductionRecords));
+                
+                // 重新渲染
+                renderDeductionList();
+                updateTodayStats();
+                updateTodayRanking();
+                renderDailySummary();
+                renderWeeklySummary();
+                
+                // 关闭模态框
+                bootstrap.Modal.getInstance(document.getElementById('editModal')).hide();
+                
+                alert('记录已更新！');
+            }
+        }
+        
+        // 删除记录
+        function deleteRecord(id) {
+            if (confirm('确定要删除这条记录吗？')) {
+                deductionRecords = deductionRecords.filter(r => r.id !== id);
+                localStorage.setItem('deductionRecords', JSON.stringify(deductionRecords));
+                
+                renderDeductionList();
+                updateTodayStats();
+                updateTodayRanking();
+                renderDailySummary();
+                renderWeeklySummary();
+                
+                alert('记录已删除！');
+            }
+        }
+        
+        // 更新今日统计
+        function updateTodayStats() {
+            const today = dayjs().format('YYYY-MM-DD');
+            const todayRecords = deductionRecords.filter(record => record.date === today);
+            
+            const todayCount = todayRecords.length;
+            const todayClassCount = new Set(todayRecords.map(record => record.deductedClass)).size;
+            const todayTotalScore = todayRecords.reduce((sum, record) => sum + record.deductionScore, 0).toFixed(1);
+            
+            document.getElementById('todayCount').textContent = todayCount;
+            document.getElementById('todayClassCount').textContent = todayClassCount;
+            document.getElementById('todayTotalScore').textContent = todayTotalScore;
+        }
+        
+        // 更新今日排名
+        function updateTodayRanking() {
+            const today = dayjs().format('YYYY-MM-DD');
+            const todayRecords = deductionRecords.filter(record => record.date === today);
+            
+            // 按班级统计今日扣分
+            const classScores = {};
+            todayRecords.forEach(record => {
+                if (!classScores[record.deductedClass]) {
+                    classScores[record.deductedClass] = 0;
+                }
+                classScores[record.deductedClass] += record.deductionScore;
+            });
+            
+            // 按扣分从多到少排序（扣分越多排名越靠前）
+            const sortedClasses = Object.keys(classScores).sort((a, b) => classScores[b] - classScores[a]);
+            
+            const rankingList = document.getElementById('todayRankingList');
+            const emptyRanking = document.getElementById('emptyRanking');
+            
+            if (sortedClasses.length === 0) {
+                rankingList.innerHTML = '';
+                emptyRanking.style.display = 'block';
+                return;
+            }
+            
+            emptyRanking.style.display = 'none';
+            
+            let html = '';
+            sortedClasses.forEach((className, index) => {
+                const score = classScores[className].toFixed(1);
+                
+                let rankClass = '';
+                if (index === 0) rankClass = 'ranking-rank-1';
+                else if (index === 1) rankClass = 'ranking-rank-2';
+                else if (index === 2) rankClass = 'ranking-rank-3';
+                
+                html += `
+                    <div class="ranking-item">
+                        <div class="ranking-rank ${rankClass}">${index + 1}</div>
+                        <div class="flex-grow-1">
+                            <div class="fw-bold">${className}</div>
+                            <div class="small text-muted">${today}扣分</div>
+                        </div>
+                        <div class="text-danger fw-bold">${score}分</div>
+                    </div>
+                `;
+            });
+            
+            rankingList.innerHTML = html;
+        }
+        
+        // 初始化周筛选器
+        function initWeekFilter() {
+            const weekFilter = document.getElementById('weekFilter');
+            weekFilter.innerHTML = '';
+            
+            // 获取所有记录的日期
+            const allDates = [...new Set(deductionRecords.map(record => record.date))].sort();
+            
+            if (allDates.length === 0) {
+                const option = document.createElement('option');
+                option.value = '';
+                option.textContent = '暂无数据';
+                weekFilter.appendChild(option);
+                return;
+            }
+            
+            // 按周分组
+            const weeks = {};
+            allDates.forEach(dateStr => {
+                const date = dayjs(dateStr);
+                const year = date.year();
+                const week = date.week();
+                const weekKey = `${year}-W${week}`;
+                
+                if (!weeks[weekKey]) {
+                    weeks[weekKey] = {
+                        startDate: dateStr,
+                        endDate: dateStr,
+                        label: `${year}年第${week}周 (${date.format('MM/DD')})`
+                    };
+                } else {
+                    if (dateStr < weeks[weekKey].startDate) weeks[weekKey].startDate = dateStr;
+                    if (dateStr > weeks[weekKey].endDate) weeks[weekKey].endDate = dateStr;
+                }
+            });
+            
+            // 添加选项
+            Object.keys(weeks).forEach(weekKey => {
+                const week = weeks[weekKey];
+                const option = document.createElement('option');
+                option.value = weekKey;
+                
+                // 格式化日期范围
+                const startDate = dayjs(week.startDate).format('MM/DD');
+                const endDate = dayjs(week.endDate).format('MM/DD');
+                option.textContent = `${week.label} (${startDate}-${endDate})`;
+                weekFilter.appendChild(option);
+            });
+            
+            // 默认选择最近一周
+            if (Object.keys(weeks).length > 0) {
+                const lastWeekKey = Object.keys(weeks).pop();
+                weekFilter.value = lastWeekKey;
+            }
+        }
+        
+        // 渲染日汇总
+        function renderDailySummary() {
+            const dailyDate = document.getElementById('dailyDateFilter').value;
+            const dailySummaryContent = document.getElementById('dailySummaryContent');
+            
+            // 筛选当日记录
+            const dailyRecords = deductionRecords.filter(record => record.date === dailyDate);
+            
+            if (dailyRecords.length === 0) {
+                dailySummaryContent.innerHTML = `
+                    <div class="empty-state">
+                        <i class="bi bi-calendar-x"></i>
+                        <p>${dayjs(dailyDate).format('YYYY年MM月DD日')} 暂无扣分记录</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // 按班级统计
+            const classSummary = {};
+            let totalScore = 0;
+            
+            dailyRecords.forEach(record => {
+                const className = record.deductedClass;
+                if (!classSummary[className]) {
+                    classSummary[className] = {
+                        count: 0,
+                        score: 0,
+                        details: []
+                    };
+                }
+                
+                classSummary[className].count++;
+                classSummary[className].score += record.deductionScore;
+                classSummary[className].details.push(record);
+                totalScore += record.deductionScore;
+            });
+            
+            // 按扣分总分排序（扣分越多排名越靠前）
+            const sortedClasses = Object.keys(classSummary).sort((a, b) => classSummary[b].score - classSummary[a].score);
+            
+            // 生成HTML
+            let html = `
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-number">${dailyRecords.length}</div>
+                            <div class="stat-label">扣分记录总数</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-number">${totalScore.toFixed(1)}</div>
+                            <div class="stat-label">扣分总分</div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="stat-card">
+                            <div class="stat-number">${sortedClasses.length}</div>
+                            <div class="stat-label">涉及班级数</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h5 class="mb-3 fw-bold">各班级扣分情况（按扣分总分排序）</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="table-light">
+                            <tr>
+                                <th width="80">排名</th>
+                                <th>班级</th>
+                                <th width="120">扣分次数</th>
+                                <th width="120">扣分总分</th>
+                                <th>检查项目/检查人</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            sortedClasses.forEach((className, index) => {
+                const summary = classSummary[className];
+                const detailsHtml = summary.details.map(detail => 
+                    `<div class="record-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>${detail.checkItem}</strong><br>
+                                <small class="text-muted">${detail.checker}</small>
+                            </div>
+                            <div class="text-danger fw-bold">${detail.deductionScore}分</div>
+                        </div>
+                    </div>`
+                ).join('');
+                
+                // 设置排名颜色
+                let rowClass = '';
+                if (index === 0) rowClass = 'table-danger';
+                else if (index === 1) rowClass = 'table-warning';
+                else if (index === 2) rowClass = 'table-info';
+                
+                html += `
+                    <tr class="${rowClass}">
+                        <td class="fw-bold">${index + 1}</td>
+                        <td class="fw-bold">${className}</td>
+                        <td>${summary.count}</td>
+                        <td class="text-danger fw-bold">${summary.score.toFixed(1)}</td>
+                        <td>${detailsHtml}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-muted small mt-3">
+                    汇总日期：${dayjs(dailyDate).format('YYYY年MM月DD日')}（${getWeekdayFromDate(dailyDate)}）
+                </div>
+            `;
+            
+            dailySummaryContent.innerHTML = html;
+        }
+        
+        // 根据日期获取星期几
+        function getWeekdayFromDate(dateStr) {
+            const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+            const date = new Date(dateStr);
+            return weekdays[date.getDay()];
+        }
+        
+        // 渲染周汇总
+        function renderWeeklySummary() {
+            const weekKey = document.getElementById('weekFilter').value;
+            const weeklySummaryContent = document.getElementById('weeklySummaryContent');
+            
+            if (!weekKey) {
+                weeklySummaryContent.innerHTML = `
+                    <div class="empty-state">
+                        <i class="bi bi-calendar-week"></i>
+                        <p>暂无周汇总数据</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // 解析周键
+            const [year, weekNum] = weekKey.split('-W');
+            
+            // 计算该周的起始日期（周一开始）
+            const startDate = dayjs().year(year).week(weekNum).startOf('week').add(1, 'day');
+            const endDate = dayjs().year(year).week(weekNum).endOf('week').add(1, 'day');
+            
+            const startDateStr = startDate.format('YYYY-MM-DD');
+            const endDateStr = endDate.format('YYYY-MM-DD');
+            
+            // 筛选本周记录
+            const weeklyRecords = deductionRecords.filter(record => 
+                record.date >= startDateStr && record.date <= endDateStr
+            );
+            
+            if (weeklyRecords.length === 0) {
+                weeklySummaryContent.innerHTML = `
+                    <div class="empty-state">
+                        <i class="bi bi-calendar-week"></i>
+                        <p>${year}年第${weekNum}周（${startDate.format('MM/DD')}-${endDate.format('MM/DD')}）暂无扣分记录</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // 按班级统计
+            const classSummary = {};
+            let totalScore = 0;
+            
+            weeklyRecords.forEach(record => {
+                const className = record.deductedClass;
+                if (!classSummary[className]) {
+                    classSummary[className] = {
+                        count: 0,
+                        score: 0,
+                        days: new Set()
+                    };
+                }
+                
+                classSummary[className].count++;
+                classSummary[className].score += record.deductionScore;
+                classSummary[className].days.add(record.date);
+                totalScore += record.deductionScore;
+            });
+            
+            // 按扣分总分排序（扣分越多排名越靠前）
+            const sortedClasses = Object.keys(classSummary).sort((a, b) => classSummary[b].score - classSummary[a].score);
+            
+            // 按日期统计每日扣分
+            const dailySummary = {};
+            weeklyRecords.forEach(record => {
+                if (!dailySummary[record.date]) {
+                    dailySummary[record.date] = {
+                        count: 0,
+                        score: 0,
+                        weekday: record.weekday
+                    };
+                }
+                dailySummary[record.date].count++;
+                dailySummary[record.date].score += record.deductionScore;
+            });
+            
+            // 生成HTML
+            let html = `
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-number">${weeklyRecords.length}</div>
+                            <div class="stat-label">扣分记录总数</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-number">${totalScore.toFixed(1)}</div>
+                            <div class="stat-label">扣分总分</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-number">${sortedClasses.length}</div>
+                            <div class="stat-label">涉及班级数</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stat-card">
+                            <div class="stat-number">${Object.keys(dailySummary).length}</div>
+                            <div class="stat-label">涉及天数</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h5 class="mb-3 fw-bold">本周每日扣分情况</h5>
+                <div class="row mb-4">
+            `;
+            
+            // 生成每日统计卡片
+            const dateRange = [];
+            let currentDate = startDate.clone();
+            while (currentDate <= endDate) {
+                dateRange.push(currentDate.format('YYYY-MM-DD'));
+                currentDate = currentDate.add(1, 'day');
+            }
+            
+            dateRange.forEach(dateStr => {
+                const dateObj = dayjs(dateStr);
+                const weekday = getWeekdayFromDate(dateStr);
+                const summary = dailySummary[dateStr] || { count: 0, score: 0 };
+                
+                html += `
+                    <div class="col-md-2 mb-3">
+                        <div class="stat-card text-center">
+                            <div class="fw-bold ${summary.count > 0 ? 'text-danger' : 'text-success'}">${weekday}</div>
+                            <div class="small text-muted">${dateObj.format('MM/DD')}</div>
+                            <div class="mt-2">
+                                <div class="fw-bold">${summary.count} 条</div>
+                                <div class="${summary.score > 0 ? 'text-danger fw-bold' : 'text-success'}">${summary.score.toFixed(1)} 分</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            html += `
+                </div>
+                
+                <h5 class="mb-3 fw-bold">各班级本周扣分排名</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="table-light">
+                            <tr>
+                                <th width="80">排名</th>
+                                <th>班级</th>
+                                <th width="120">扣分次数</th>
+                                <th width="120">扣分总分</th>
+                                <th width="120">扣分天数</th>
+                                <th width="120">平均每天</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            sortedClasses.forEach((className, index) => {
+                const summary = classSummary[className];
+                const daysCount = summary.days.size;
+                const avgScore = daysCount > 0 ? (summary.score / daysCount).toFixed(1) : 0;
+                
+                // 根据排名设置行颜色
+                let rowClass = '';
+                if (index === 0) {
+                    rowClass = 'table-danger';
+                } else if (index === 1) {
+                    rowClass = 'table-warning';
+                } else if (index === 2) {
+                    rowClass = 'table-info';
+                }
+                
+                html += `
+                    <tr class="${rowClass}">
+                        <td class="fw-bold">${index + 1}</td>
+                        <td class="fw-bold">${className}</td>
+                        <td>${summary.count}</td>
+                        <td class="text-danger fw-bold">${summary.score.toFixed(1)}</td>
+                        <td>${daysCount}</td>
+                        <td>${avgScore}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+                <div class="text-muted small mt-3">
+                    汇总周期：${startDate.format('YYYY年MM月DD日')}（周一）至 ${endDate.format('YYYY年MM月DD日')}（周五）
+                </div>
+            `;
+            
+            weeklySummaryContent.innerHTML = html;
+        }
+        
+        // 导出日汇总
+        function exportDailySummary() {
+            const dailyDate = document.getElementById('dailyDateFilter').value;
+            const dailyRecords = deductionRecords.filter(record => record.date === dailyDate);
+            
+            if (dailyRecords.length === 0) {
+                alert('当日没有扣分记录，无法导出！');
+                return;
+            }
+            
+            // 按班级统计
+            const classSummary = {};
+            dailyRecords.forEach(record => {
+                const className = record.deductedClass;
+                if (!classSummary[className]) {
+                    classSummary[className] = {
+                        count: 0,
+                        score: 0,
+                        details: []
+                    };
+                }
+                classSummary[className].count++;
+                classSummary[className].score += record.deductionScore;
+                classSummary[className].details.push(record);
+            });
+            
+            // 按扣分总分排序
+            const sortedClasses = Object.keys(classSummary).sort((a, b) => classSummary[b].score - classSummary[a].score);
+            
+            // 生成CSV内容
+            let csvContent = "排名,班级,扣分次数,扣分总分,检查项目/检查人\n";
+            
+            sortedClasses.forEach((className, index) => {
+                const summary = classSummary[className];
+                const details = summary.details.map(d => 
+                    `${d.checkItem}: ${d.checker}(${d.deductionScore}分)`
+                ).join('; ');
+                
+                csvContent += `${index + 1},"${className}",${summary.count},${summary.score.toFixed(1)},"${details}"\n`;
+            });
+            
+            // 创建下载链接
+            const dateStr = dayjs(dailyDate).format('YYYYMMDD');
+            downloadCSV(csvContent, `日汇总_${dateStr}.csv`);
+        }
+        
+        // 导出周汇总
+        function exportWeeklySummary() {
+            const weekKey = document.getElementById('weekFilter').value;
+            
+            if (!weekKey) {
+                alert('没有可导出的周数据！');
+                return;
+            }
+            
+            // 解析周键
+            const [year, weekNum] = weekKey.split('-W');
+            const startDate = dayjs().year(year).week(weekNum).startOf('week').add(1, 'day');
+            const endDate = dayjs().year(year).week(weekNum).endOf('week').add(1, 'day');
+            const startDateStr = startDate.format('YYYY-MM-DD');
+            const endDateStr = endDate.format('YYYY-MM-DD');
+            
+            // 筛选本周记录
+            const weeklyRecords = deductionRecords.filter(record => 
+                record.date >= startDateStr && record.date <= endDateStr
+            );
+            
+            if (weeklyRecords.length === 0) {
+                alert('本周没有扣分记录，无法导出！');
+                return;
+            }
+            
+            // 按班级统计
+            const classSummary = {};
+            weeklyRecords.forEach(record => {
+                const className = record.deductedClass;
+                if (!classSummary[className]) {
+                    classSummary[className] = {
+                        count: 0,
+                        score: 0,
+                        days: new Set()
+                    };
+                }
+                classSummary[className].count++;
+                classSummary[className].score += record.deductionScore;
+                classSummary[className].days.add(record.date);
+            });
+            
+            // 按扣分总分排序
+            const sortedClasses = Object.keys(classSummary).sort((a, b) => classSummary[b].score - classSummary[a].score);
+            
+            // 生成CSV内容
+            let csvContent = "排名,班级,扣分次数,扣分总分,扣分天数,平均每天扣分\n";
+            
+            sortedClasses.forEach((className, index) => {
+                const summary = classSummary[className];
+                const daysCount = summary.days.size;
+                const avgScore = daysCount > 0 ? (summary.score / daysCount).toFixed(1) : 0;
+                
+                csvContent += `${index + 1},"${className}",${summary.count},${summary.score.toFixed(1)},${daysCount},${avgScore}\n`;
+            });
+            
+            // 创建下载链接
+            const startStr = startDate.format('YYYYMMDD');
+            const endStr = endDate.format('YYYYMMDD');
+            downloadCSV(csvContent, `周汇总_${startStr}_${endStr}.csv`);
+        }
+        
+        // 下载CSV文件
+        function downloadCSV(content, filename) {
+            const blob = new Blob(["\uFEFF" + content], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
